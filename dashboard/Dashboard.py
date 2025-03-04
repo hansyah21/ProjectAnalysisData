@@ -111,3 +111,50 @@ season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique())
 weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique())
 # Pastikan kolom 'dteday' dalam format datetime
 df_day['dteday'] = pd.to_datetime(df_day['dteday'])
+
+# Konversi kolom tanggal ke format datetime
+df_day['dteday'] = pd.to_datetime(df_day['dteday'])
+
+# Sidebar untuk filtering interaktif
+st.sidebar.header("Filter Data")
+
+# Filtering berdasarkan musim
+season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique())
+
+# Filtering berdasarkan cuaca
+weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique())
+
+# Filtering berdasarkan rentang tanggal
+min_date = df_day['dteday'].min().date()
+max_date = df_day['dteday'].max().date()
+start_date = st.sidebar.date_input("Pilih Tanggal Awal:", min_date, key="start_date_picker")
+end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", max_date, key="end_date_picker")
+
+# Pastikan pengguna tidak memilih rentang tanggal yang salah
+if start_date > end_date:
+    st.sidebar.error("Tanggal awal tidak boleh lebih besar dari tanggal akhir!")
+
+# Konversi start_date & end_date ke datetime agar cocok dengan df_day
+start_date = pd.to_datetime(start_date)
+end_date = pd.to_datetime(end_date)
+
+# Filter Data
+df_filtered = df_day[
+    (df_day['season'] == season_filter) &
+    (df_day['weathersit'] == weather_filter) &
+    (df_day['dteday'] >= start_date) &
+    (df_day['dteday'] <= end_date)
+]
+
+# Menampilkan dataset yang sudah difilter
+st.header("Dataset Setelah Filtering")
+st.write(df_filtered.head())
+
+# Visualisasi Cuaca setelah Filtering
+st.header("Visualisasi Pengaruh Cuaca terhadap Penyewaan Sepeda")
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
+ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
+ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
+ax.set_ylabel("Jumlah Penyewaan Sepeda")
+st.pyplot(fig)
