@@ -52,7 +52,9 @@ elif option == "Pola Berdasarkan Cuaca":
 elif option == "Tren Harian & Bulanan":
     st.subheader("Tren Penyewaan Sepeda Berdasarkan Waktu")
     fig, ax = plt.subplots(figsize=(12, 5))
-    sns.lineplot(x='hr', y='cnt', data=df_hour.groupby('hr').mean().reset_index(), marker='o', color='purple', ax=ax)
+    df_hour_numeric = df_hour.select_dtypes(include=['number'])  # Pilih hanya kolom numerik
+    df_hour_grouped = df_hour_numeric.groupby('hr').mean().reset_index()
+    sns.lineplot(x='hr', y='cnt', data=df_hour_grouped, marker='o', color='purple', ax=ax)
     ax.set_title("Rata-rata Penyewaan Sepeda Berdasarkan Jam")
     ax.set_xlabel("Jam dalam Sehari")
     ax.set_ylabel("Rata-rata Penyewaan Sepeda")
