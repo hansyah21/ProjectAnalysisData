@@ -62,8 +62,8 @@ elif option == "Tren Harian & Bulanan":
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12, 5))
-    df_day_numeric = df_day.select_dtypes(include=['number'])  # Pilih hanya kolom numerik
-    df_day_grouped = df_day_numeric.groupby('hr').mean().reset_index()
+    df_hour_numeric = df_hour.select_dtypes(include=['number'])  # Pilih hanya kolom numerik
+    df_hour_grouped = df_hour_numeric.groupby('hr').mean().reset_index()
     sns.lineplot(x='hr', y='cnt', data=df_day_grouped, marker='o', color='purple', ax=ax)
     ax.set_title("Tren Penyewaan Sepeda Bulanan")
     ax.set_xlabel("Bulan")
