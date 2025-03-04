@@ -19,7 +19,7 @@ Dashboard ini dibuat dengan **Streamlit** untuk menganalisis data penyewaan sepe
 # Run Steamlit App
 streamlit run dashboard.py
 
-Link : https://projectanalysisdata-laskarai.streamlit.app/
+Link : projectanalysisdata-laskar-ai.streamlit.app
 
 
 
