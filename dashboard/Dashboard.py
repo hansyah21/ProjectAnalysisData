@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load dataset
-df_day = pd.read_csv('/mnt/data/day.csv')
-df_hour = pd.read_csv('/mnt/data/hour.csv')
+df_day = pd.read_csv('/data/day.csv')
+df_hour = pd.read_csv('/data/hour.csv')
 
 # Streamlit Dashboard
 st.title("Dashboard Analisis Penyewaan Sepeda")
