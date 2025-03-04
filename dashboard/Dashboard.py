@@ -52,7 +52,7 @@ elif option == "Pola Berdasarkan Cuaca":
 elif option == "Tren Harian & Bulanan":
     st.subheader("Tren Penyewaan Sepeda Berdasarkan Waktu")
     fig, ax = plt.subplots(figsize=(12, 5))
-    df_hour_numeric = df_hour.select_dtypes(include=['number'])  # Pilih hanya kolom numerik
+    df_hour_numeric = df_hour.select_dtypes(include=['number'])
     df_hour_grouped = df_hour_numeric.groupby('hr').mean().reset_index()
     sns.lineplot(x='hr', y='cnt', data=df_hour_grouped, marker='o', color='purple', ax=ax)
     ax.set_title("Rata-rata Penyewaan Sepeda Berdasarkan Jam")
@@ -62,7 +62,9 @@ elif option == "Tren Harian & Bulanan":
     st.pyplot(fig)
 
     fig, ax = plt.subplots(figsize=(12, 5))
-    sns.lineplot(x='mnth', y='cnt', data=df_day.groupby('mnth').mean().reset_index(), marker='o', color='orange', ax=ax)
+    df_day_numeric = df_day.select_dtypes(include=['number'])  # Pilih hanya kolom numerik
+    df_day_grouped = df_day_numeric.groupby('hr').mean().reset_index()
+    sns.lineplot(x='hr', y='cnt', data=df_day_grouped, marker='o', color='purple', ax=ax)
     ax.set_title("Tren Penyewaan Sepeda Bulanan")
     ax.set_xlabel("Bulan")
     ax.set_ylabel("Rata-rata Penyewaan Sepeda")
