@@ -129,9 +129,10 @@ df_filtered = df_day[(df_day['dteday'] >= pd.to_datetime(start_date)) &
                       (df_day['dteday'] <= pd.to_datetime(end_date)) & 
                       (df_day['season'] == season_filter) & 
                       (df_day['weathersit'] == weather_filter)]
-# Input tanggal dengan default min dan max
-start_date = st.sidebar.date_input("Pilih Tanggal Awal:", min_date)
-end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", max_date)
+
+start_date = st.sidebar.date_input("Pilih Tanggal Awal:", min_date, key="start_date_picker")
+end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", max_date, key="end_date_picker")
+
 
 # Validasi input tanggal
 if start_date > end_date:
