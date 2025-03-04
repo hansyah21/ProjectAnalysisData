@@ -109,10 +109,26 @@ st.sidebar.text("Dashboard by Streamlit")
 st.sidebar.header("Filter Data")
 season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique())
 weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique())
-# Konversi tanggal ke tipe datetime.date agar kompatibel dengan Streamlit
-min_date = df_day['dteday'].min().date()
-max_date = df_day['dteday'].max().date()
+# Pastikan kolom 'dteday' dalam format datetime
+df_day['dteday'] = pd.to_datetime(df_day['dteday'])
 
+# Konversi ke datetime.date agar kompatibel dengan Streamlit
+min_date = df_day['dteday'].min().to_pydatetime().date()
+max_date = df_day['dteday'].max().to_pydatetime().date()
+
+# Input tanggal dengan default min dan max
+start_date = st.sidebar.date_input("Pilih Tanggal Awal:", min_date)
+end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", max_date)
+
+# Validasi input tanggal
+if start_date > end_date:
+    st.sidebar.error("Tanggal awal tidak boleh lebih besar dari tanggal akhir!")
+
+# Filter data berdasarkan tanggal
+df_filtered = df_day[(df_day['dteday'] >= pd.to_datetime(start_date)) & 
+                      (df_day['dteday'] <= pd.to_datetime(end_date)) & 
+                      (df_day['season'] == season_filter) & 
+                      (df_day['weathersit'] == weather_filter)]
 # Input tanggal dengan default min dan max
 start_date = st.sidebar.date_input("Pilih Tanggal Awal:", min_date)
 end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", max_date)
