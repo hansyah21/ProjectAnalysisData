@@ -3,6 +3,7 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+import datetime
 
 # Load dataset
 df_day = pd.read_csv('data/day.csv')
@@ -108,8 +109,23 @@ st.sidebar.text("Dashboard by Streamlit")
 st.sidebar.header("Filter Data")
 season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique())
 weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique())
-start_date = st.sidebar.date_input("Pilih Tanggal Awal:", df_day['dteday'].min())
-end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", df_day['dteday'].max())
+# Konversi tanggal ke tipe datetime.date agar kompatibel dengan Streamlit
+min_date = df_day['dteday'].min().date()
+max_date = df_day['dteday'].max().date()
+
+# Input tanggal dengan default min dan max
+start_date = st.sidebar.date_input("Pilih Tanggal Awal:", min_date)
+end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", max_date)
+
+# Validasi input tanggal
+if start_date > end_date:
+    st.sidebar.error("Tanggal awal tidak boleh lebih besar dari tanggal akhir!")
+
+# Filter data berdasarkan tanggal
+df_filtered = df_day[(df_day['dteday'] >= pd.to_datetime(start_date)) & 
+                      (df_day['dteday'] <= pd.to_datetime(end_date)) & 
+                      (df_day['season'] == season_filter) & 
+                      (df_day['weathersit'] == weather_filter)]
 
 # Pastikan pengguna tidak memilih rentang tanggal yang salah
 if start_date > end_date:
