@@ -1,0 +1,8 @@
+bike-sharing-dashboard/
+├── dashboard/
+│   ├── dashboard.py          # File utama Streamlit
+│   ├── requirements.txt      # Daftar pustaka
+├── data/
+│   ├── day.csv               # Dataset harian
+│   ├── hour.csv              # Dataset per jam
+├── README.md
