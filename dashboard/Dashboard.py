@@ -104,4 +104,16 @@ elif option == "Clustering":
     st.pyplot(fig)
 
 st.sidebar.text("Dashboard by Streamlit")
+# Sidebar untuk filtering interaktif
+st.sidebar.header("Filter Data")
+season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique())
+weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique())
+date_filter = st.sidebar.date_input("Pilih Rentang Tanggal:", [df_day['dteday'].min(), df_day['dteday'].max()])
+
+# Filter Data
+start_date, end_date = date_filter
+df_filtered = df_day[(df_day['season'] == season_filter) & 
+                      (df_day['weathersit'] == weather_filter) & 
+                      (df_day['dteday'] >= start_date) & 
+                      (df_day['dteday'] <= end_date)]
 
