@@ -49,6 +49,13 @@ elif option == "Pola Berdasarkan Cuaca":
     ax.set_ylabel("Jumlah Penyewaan Sepeda")
     st.pyplot(fig)
 
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.scatterplot(x='hum', y='cnt', data=df_day, color='green', ax=ax)
+    ax.set_title("Hubungan cuaca dan Jumlah Penyewaan Sepeda")
+    ax.set_xlabel("cuaca")
+    ax.set_ylabel("Jumlah Penyewaan Sepeda")
+    st.pyplot(fig)
+
 elif option == "Tren Harian & Bulanan":
     st.subheader("Tren Penyewaan Sepeda Berdasarkan Waktu")
     fig, ax = plt.subplots(figsize=(12, 5))
