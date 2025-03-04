@@ -108,7 +108,18 @@ st.sidebar.text("Dashboard by Streamlit")
 st.sidebar.header("Filter Data")
 season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique())
 weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique())
-date_filter = st.sidebar.date_input("Pilih Rentang Tanggal:", [df_day['dteday'].min(), df_day['dteday'].max()])
+start_date = st.sidebar.date_input("Pilih Tanggal Awal:", df_day['dteday'].min())
+end_date = st.sidebar.date_input("Pilih Tanggal Akhir:", df_day['dteday'].max())
+
+# Pastikan pengguna tidak memilih rentang tanggal yang salah
+if start_date > end_date:
+    st.sidebar.error("Tanggal awal tidak boleh lebih besar dari tanggal akhir!")
+
+# Filter data berdasarkan tanggal
+df_filtered = df_day[(df_day['dteday'] >= pd.to_datetime(start_date)) & 
+                      (df_day['dteday'] <= pd.to_datetime(end_date)) & 
+                      (df_day['season'] == season_filter) & 
+                      (df_day['weathersit'] == weather_filter)]
 
 # Filter Data
 start_date, end_date = date_filter
