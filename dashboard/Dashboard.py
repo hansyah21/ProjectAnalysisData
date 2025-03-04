@@ -94,6 +94,13 @@ elif option == "RFM Analysis":
     ax.set_title("Heatmap Korelasi RFM Analysis")
     st.pyplot(fig)
     
+    st.write("""
+    **Insight RFM Analysis:**
+    - Pengguna dengan frekuensi tinggi cenderung memiliki recency rendah.
+    - Pengguna dengan monetary tinggi menunjukkan pola penggunaan yang lebih stabil.
+    - Strategi bisnis: Program loyalitas untuk pengguna dengan frekuensi tinggi dapat meningkatkan retensi.
+    """)
+    
     st.write(df_rfm)
 
 elif option == "Clustering":
@@ -106,5 +113,12 @@ elif option == "Clustering":
     ax.set_xlabel("Waktu dalam Sehari")
     ax.set_ylabel("Jumlah Penyewaan Sepeda")
     st.pyplot(fig)
+    
+    st.write("""
+    **Insight Clustering:**
+    - Penggunaan sepeda tertinggi terjadi pada pagi dan sore hari.
+    - Jam malam menunjukkan penurunan drastis dalam jumlah penyewaan.
+    - Strategi: Promosi diskon malam hari atau peningkatan layanan di jam sibuk.
+    """)
 
 st.sidebar.text("Dashboard by Streamlit")
