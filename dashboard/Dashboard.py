@@ -67,22 +67,22 @@ if option == "Distribusi Penyewaan Sepeda":
     ax.set_ylabel("Frekuensi")
     st.pyplot(fig)
 
-    elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
-        st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
-        ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
-        st.pyplot(fig)
+elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
+    st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
+    ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
+    st.pyplot(fig)
         
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.regplot(x='temp', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'red'}, ax=ax)
-        ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
-        st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.regplot(x='temp', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'red'}, ax=ax)
+    ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
+    st.pyplot(fig)
         
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.regplot(x='hum', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'blue'}, ax=ax)
-        ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
-        st.pyplot(fig)
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.regplot(x='hum', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'blue'}, ax=ax)
+    ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
+    st.pyplot(fig)
      
 elif option == "Tren Harian & Bulanan":
     st.subheader("Tren Penyewaan Sepeda Berdasarkan Waktu")
