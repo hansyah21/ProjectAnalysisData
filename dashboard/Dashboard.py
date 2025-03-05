@@ -13,7 +13,7 @@ df_hour = pd.read_csv('data/hour.csv')
 df_day['dteday'] = pd.to_datetime(df_day['dteday'])
 
 # Streamlit Dashboard
-st.title("Dashboard Analisis Penyewaan Sepeda")
+st.title("Dashboard Analisis Penyewaan Sepeda :cycle:")
 
 # Sidebar untuk filtering interaktif
 st.sidebar.header("Filter Data")
