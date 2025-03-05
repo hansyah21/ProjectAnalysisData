@@ -74,19 +74,31 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     if df_filtered.empty:
         st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
     else:
+        # Konversi 'weathersit' menjadi kategori agar boxplot dapat bekerja
+        df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
+
+        # Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
         fig, ax = plt.subplots(figsize=(10, 5))
         sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
         ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
+        ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
+        ax.set_ylabel("Jumlah Penyewaan Sepeda")
         st.pyplot(fig)
 
+        # Visualisasi hubungan suhu dengan jumlah penyewaan sepeda
         fig, ax = plt.subplots(figsize=(10, 5))
         sns.regplot(x='temp', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'red'}, ax=ax)
         ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
+        ax.set_xlabel("Suhu (Normalized)")
+        ax.set_ylabel("Jumlah Penyewaan Sepeda")
         st.pyplot(fig)
 
+        # Visualisasi hubungan kelembaban dengan jumlah penyewaan sepeda
         fig, ax = plt.subplots(figsize=(10, 5))
         sns.regplot(x='hum', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'blue'}, ax=ax)
         ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
+        ax.set_xlabel("Kelembaban")
+        ax.set_ylabel("Jumlah Penyewaan Sepeda")
         st.pyplot(fig)
 
 elif option == "Tren Harian & Bulanan":
