@@ -79,9 +79,11 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
         # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
 
-        # Tambahkan dropdown interaktif untuk memilih cuaca
+        # Tambahkan dropdown interaktif untuk memilih cuaca dengan key unik
         weathersit_options = ['Semua Cuaca'] + sorted(df_filtered['weathersit'].unique())
-        selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca:", weathersit_options, key="weather_dropdown")
+        selected_weather = st.sidebar.selectbox(
+            "Pilih Kondisi Cuaca:", weathersit_options, key="weather_dropdown_unique"
+        )
 
         # Debugging: Cek apakah dropdown memberikan output yang benar
         st.write("Opsi cuaca tersedia:", df_filtered['weathersit'].unique())
@@ -121,7 +123,7 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
             ax.set_xlabel("Kelembaban")
             ax.set_ylabel("Jumlah Penyewaan Sepeda")
             st.pyplot(fig)
-
+            
 elif option == "Tren Harian & Bulanan":
     st.subheader("Tren Penyewaan Sepeda Berdasarkan Waktu")
     df_hour_numeric = df_hour.select_dtypes(include=['number'])
