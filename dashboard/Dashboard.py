@@ -143,4 +143,9 @@ elif option == "Clustering":
     - Strategi: Promosi diskon malam hari atau peningkatan layanan di jam sibuk.
     """)
 
+git add .
+git commit -m "Fix missing graphs in weather analysis"
+git push origin main
+
+
 st.sidebar.text("Dashboard by Raihansyah A.M.")
