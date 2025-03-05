@@ -58,12 +58,6 @@ else:
     st.header("Dataset Setelah Filtering")
     st.write(df_filtered.head())
 
-# Pilihan Visualisasi
-st.sidebar.header("Pilih Visualisasi")
-option = st.sidebar.selectbox("Pilih Grafik", [
-    "Distribusi Penyewaan Sepeda", "Pola Berdasarkan Cuaca", "Tren Harian & Bulanan", "RFM Analysis", "Clustering"
-])
-
 if option == "Distribusi Penyewaan Sepeda":
     st.subheader("Distribusi Jumlah Penyewaan Sepeda")
     fig, ax = plt.subplots(figsize=(12, 6))
