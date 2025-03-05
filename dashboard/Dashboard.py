@@ -44,9 +44,13 @@ if season_filter != 'Semua Musim':
 if weather_filter != 'Semua Cuaca':
     df_filtered = df_filtered[df_filtered['weathersit'] == weather_filter]
 
-# Menampilkan dataset yang sudah difilter
-st.header("Dataset Setelah Filtering")
-st.write(df_filtered.head())
+# Pastikan df_filtered tidak kosong sebelum visualisasi
+if df_filtered.empty:
+    st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
+else:
+    # Menampilkan dataset yang sudah difilter
+    st.header("Dataset Setelah Filtering")
+    st.write(df_filtered.head())
 
 # Pilihan Visualisasi
 st.sidebar.header("Pilih Visualisasi")
