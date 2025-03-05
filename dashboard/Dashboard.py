@@ -13,8 +13,13 @@ df_hour = pd.read_csv('data/hour.csv')
 df_day['dteday'] = pd.to_datetime(df_day['dteday'])
 
 # Streamlit Dashboard
-st.title("Dashboard Analisis Penyewaan Sepeda :cycle:")
+st.title("Dashboard Analisis Penyewaan Sepeda")
 
+# Pilihan Visualisasi
+st.sidebar.header("Pilih Visualisasi")
+option = st.sidebar.selectbox("Pilih Grafik", [
+    "Distribusi Penyewaan Sepeda", "Pola Berdasarkan Cuaca", "Tren Harian & Bulanan", "RFM Analysis", "Clustering"
+    
 # Sidebar untuk filtering interaktif
 st.sidebar.header("Filter Data")
 season_options = ['Semua Musim'] + list(df_day['season'].unique())
