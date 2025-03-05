@@ -70,37 +70,45 @@ if option == "Distribusi Penyewaan Sepeda":
 elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
 
-    # Debugging: Cek jumlah data setelah filter
+    # 🔍 Debugging: Cek jumlah data setelah filter
     st.write("Jumlah data setelah filter:", df_filtered.shape)
 
     if df_filtered.empty:
-        st.warning("Tidak ada data yang sesuai dengan filter yang dipilih. Coba ubah filter musim/cuaca.")
+        st.warning("❌ Tidak ada data yang sesuai dengan filter. Coba ubah filter musim/cuaca.")
     else:
         # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
 
+        # 🔍 Debugging: Cek nilai unik dalam kolom weathersit
+        st.write("✅ Nilai unik dalam kolom weathersit:", df_filtered['weathersit'].unique())
+
         # Tambahkan dropdown interaktif untuk memilih cuaca dengan key unik
         weathersit_options = ['Semua Cuaca'] + sorted(df_filtered['weathersit'].unique())
-        selected_weather = st.sidebar.selectbox(
-            "Pilih Kondisi Cuaca:", weathersit_options, key="weather_dropdown_unique"
-        )
+        selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca:", weathersit_options, key="weather_dropdown_unique")
 
-        # Debugging: Cek apakah dropdown memberikan output yang benar
-        st.write("Opsi cuaca tersedia:", df_filtered['weathersit'].unique())
-        st.write("Cuaca yang dipilih:", selected_weather)
+        # 🔍 Debugging: Cek apakah dropdown memberikan output yang benar
+        st.write("✅ Cuaca yang dipilih:", selected_weather)
 
         # Filter berdasarkan dropdown cuaca
         if selected_weather != "Semua Cuaca":
             df_filtered = df_filtered[df_filtered['weathersit'] == selected_weather]
 
-        # Pastikan dataset tidak kosong setelah filter cuaca
+        # 🔍 Debugging: Cek apakah dataset kosong setelah filter cuaca
+        st.write("Jumlah data setelah filter cuaca:", df_filtered.shape)
+
         if df_filtered.empty:
-            st.warning("Tidak ada data setelah filter cuaca. Coba ubah pilihan dropdown.")
+            st.warning("❌ Tidak ada data setelah filter cuaca. Coba ubah pilihan dropdown.")
         else:
+            # 🔍 Debugging: Cek apakah kolom cnt memiliki NaN
+            st.write("Jumlah NaN dalam kolom cnt:", df_filtered['cnt'].isnull().sum())
+
+            # Hapus NaN jika ada
+            df_filtered = df_filtered.dropna(subset=['cnt'])
+
             # Pastikan kategori cuaca memiliki urutan yang benar
             cuaca_order = ['1', '2', '3', '4']
 
-            # Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
+            # 📊 Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
             fig, ax = plt.subplots(figsize=(10, 5))
             sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax, order=cuaca_order)
             ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
@@ -108,7 +116,7 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
             ax.set_ylabel("Jumlah Penyewaan Sepeda")
             st.pyplot(fig)
 
-            # Visualisasi hubungan suhu dengan jumlah penyewaan sepeda
+            # 📊 Visualisasi hubungan suhu dengan jumlah penyewaan sepeda
             fig, ax = plt.subplots(figsize=(10, 5))
             sns.regplot(x='temp', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'red'}, ax=ax)
             ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
@@ -116,7 +124,7 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
             ax.set_ylabel("Jumlah Penyewaan Sepeda")
             st.pyplot(fig)
 
-            # Visualisasi hubungan kelembaban dengan jumlah penyewaan sepeda
+            # 📊 Visualisasi hubungan kelembaban dengan jumlah penyewaan sepeda
             fig, ax = plt.subplots(figsize=(10, 5))
             sns.regplot(x='hum', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'blue'}, ax=ax)
             ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
