@@ -70,21 +70,27 @@ if option == "Distribusi Penyewaan Sepeda":
 elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
     
-    # Pengecekan jumlah data setelah filter
+    # Debugging: Cek jumlah data setelah filter
     st.write("Jumlah data setelah filter:", df_filtered.shape)
 
     if df_filtered.empty:
-        st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
+        st.warning("Tidak ada data yang sesuai dengan filter yang dipilih. Coba ubah filter musim/cuaca.")
     else:
-        # Cek apakah ada NaN dalam kolom yang digunakan
+        # Debugging: Cek apakah ada NaN di kolom yang digunakan
         st.write("Jumlah NaN di setiap kolom:")
-        st.write(df_filtered[['weathersit', 'temp', 'hum', 'cnt']].isnull().sum())
+        st.write(df_filtered[['weathersit', 'cnt', 'temp', 'hum']].isnull().sum())
 
-        # Hapus data NaN jika ada
-        df_filtered = df_filtered.dropna(subset=['weathersit', 'temp', 'hum', 'cnt'])
+        # Hapus NaN jika ada
+        df_filtered = df_filtered.dropna(subset=['weathersit', 'cnt', 'temp', 'hum'])
+
+        # Debugging: Cek tipe data weathersit sebelum visualisasi
+        st.write("Tipe data weathersit sebelum konversi:", df_filtered['weathersit'].dtype)
 
         # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
+
+        # Debugging: Cek tipe data setelah konversi
+        st.write("Tipe data weathersit setelah konversi:", df_filtered['weathersit'].dtype)
 
         # Pastikan kategori cuaca memiliki urutan yang benar
         cuaca_order = ['1', '2', '3', '4']
