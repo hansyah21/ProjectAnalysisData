@@ -16,6 +16,10 @@ pip install -r requirements.txt
 # Dashboard Bike Sharing Analysis 🚴‍♂️
 Dashboard ini dibuat dengan **Streamlit** untuk menganalisis data penyewaan sepeda.
 
+git add .
+git commit -m "Fix missing graphs in weather analysis"
+git push origin main
+
 # Run Steamlit App
 streamlit run dashboard.py
 
