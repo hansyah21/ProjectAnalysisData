@@ -70,7 +70,7 @@ if option == "Distribusi Penyewaan Sepeda":
 elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
 
-    # 🔍 Debugging: Cek jumlah data setelah filter
+    # Debugging: Cek jumlah data setelah filter
     st.write("Jumlah data setelah filter:", df_filtered.shape)
 
     if df_filtered.empty:
@@ -79,27 +79,27 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
         # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
 
-        # 🔍 Debugging: Cek nilai unik dalam kolom weathersit
+        # Debugging: Cek nilai unik dalam kolom weathersit
         st.write("✅ Nilai unik dalam kolom weathersit:", df_filtered['weathersit'].unique())
 
         # Tambahkan dropdown interaktif untuk memilih cuaca dengan key unik
         weathersit_options = ['Semua Cuaca'] + sorted(df_filtered['weathersit'].unique())
         selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca:", weathersit_options, key="weather_dropdown_unique")
 
-        # 🔍 Debugging: Cek apakah dropdown memberikan output yang benar
+        # Debugging: Cek apakah dropdown memberikan output yang benar
         st.write("✅ Cuaca yang dipilih:", selected_weather)
 
         # Filter berdasarkan dropdown cuaca
         if selected_weather != "Semua Cuaca":
             df_filtered = df_filtered[df_filtered['weathersit'] == selected_weather]
 
-        # 🔍 Debugging: Cek apakah dataset kosong setelah filter cuaca
+        # Debugging: Cek apakah dataset kosong setelah filter cuaca
         st.write("Jumlah data setelah filter cuaca:", df_filtered.shape)
 
         if df_filtered.empty:
             st.warning("❌ Tidak ada data setelah filter cuaca. Coba ubah pilihan dropdown.")
         else:
-            # 🔍 Debugging: Cek apakah kolom cnt memiliki NaN
+            # Debugging: Cek apakah kolom cnt memiliki NaN
             st.write("Jumlah NaN dalam kolom cnt:", df_filtered['cnt'].isnull().sum())
 
             # Hapus NaN jika ada
@@ -110,7 +110,7 @@ elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
 
             # 📊 Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
             fig, ax = plt.subplots(figsize=(10, 5))
-            sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax, order=cuaca_order)
+            sns.boxplot(x='weathersit', y='cnt', data=df_filtered, hue='weathersit', palette='viridis', legend=False, ax=ax, order=cuaca_order)
             ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
             ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
             ax.set_ylabel("Jumlah Penyewaan Sepeda")
