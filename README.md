@@ -21,7 +21,7 @@ git commit -m "Fix missing graphs in weather analysis"
 git push origin main
 
 # Run Steamlit App
-streamlit run dashboard.py
+streamlit run Dashboard.py
 
 Link : projectanalysisdata-laskar-ai.streamlit.app
 
