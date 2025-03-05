@@ -17,8 +17,11 @@ st.title("Dashboard Analisis Penyewaan Sepeda")
 
 # Sidebar untuk filtering interaktif
 st.sidebar.header("Filter Data")
-season_filter = st.sidebar.selectbox("Pilih Musim:", df_day['season'].unique(), key="season_select")
-weather_filter = st.sidebar.selectbox("Pilih Cuaca:", df_day['weathersit'].unique(), key="weather_select")
+season_options = ['Semua Musim'] + list(df_day['season'].unique())
+weather_options = ['Semua Cuaca'] + list(df_day['weathersit'].unique())
+
+season_filter = st.sidebar.selectbox("Pilih Musim:", season_options, key="season_select")
+weather_filter = st.sidebar.selectbox("Pilih Cuaca:", weather_options, key="weather_select")
 
 # Filtering berdasarkan rentang tanggal
 min_date = df_day['dteday'].min().date()
@@ -35,12 +38,11 @@ start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
 # Filter Data
-df_filtered = df_day[
-    (df_day['season'] == season_filter) &
-    (df_day['weathersit'] == weather_filter) &
-    (df_day['dteday'] >= start_date) &
-    (df_day['dteday'] <= end_date)
-]
+df_filtered = df_day[(df_day['dteday'] >= start_date) & (df_day['dteday'] <= end_date)]
+if season_filter != 'Semua Musim':
+    df_filtered = df_filtered[df_filtered['season'] == season_filter]
+if weather_filter != 'Semua Cuaca':
+    df_filtered = df_filtered[df_filtered['weathersit'] == weather_filter]
 
 # Menampilkan dataset yang sudah difilter
 st.header("Dataset Setelah Filtering")
@@ -61,13 +63,21 @@ if option == "Distribusi Penyewaan Sepeda":
     ax.set_ylabel("Frekuensi")
     st.pyplot(fig)
 
-elif option == "Pola Berdasarkan Cuaca":
-    st.subheader("Pengaruh Cuaca terhadap Penyewaan Sepeda")
+elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
+    st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
     ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
-    ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
-    ax.set_ylabel("Jumlah Penyewaan Sepeda")
+    st.pyplot(fig)
+    
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.scatterplot(x='temp', y='cnt', data=df_filtered, color='red', ax=ax)
+    ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
+    st.pyplot(fig)
+    
+    fig, ax = plt.subplots(figsize=(10, 5))
+    sns.scatterplot(x='hum', y='cnt', data=df_filtered, color='blue', ax=ax)
+    ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
     st.pyplot(fig)
 
 elif option == "Tren Harian & Bulanan":
@@ -77,9 +87,12 @@ elif option == "Tren Harian & Bulanan":
     fig, ax = plt.subplots(figsize=(12, 5))
     sns.lineplot(x='hr', y='cnt', data=df_hour_grouped, marker='o', color='purple', ax=ax)
     ax.set_title("Rata-rata Penyewaan Sepeda Berdasarkan Jam")
-    ax.set_xlabel("Jam dalam Sehari")
-    ax.set_ylabel("Rata-rata Penyewaan Sepeda")
-    ax.grid()
+    st.pyplot(fig)
+    
+    df_day_grouped = df_day.groupby('mnth').mean().reset_index()
+    fig, ax = plt.subplots(figsize=(12, 5))
+    sns.lineplot(x='mnth', y='cnt', data=df_day_grouped, marker='o', color='orange', ax=ax)
+    ax.set_title("Tren Penyewaan Sepeda Bulanan")
     st.pyplot(fig)
 
 elif option == "RFM Analysis":
@@ -121,4 +134,4 @@ elif option == "Clustering":
     - Strategi: Promosi diskon malam hari atau peningkatan layanan di jam sibuk.
     """)
 
-st.sidebar.text("Dashboard by Streamlit")
+st.sidebar.text("Dashboard by Raihansyah A.M.")
