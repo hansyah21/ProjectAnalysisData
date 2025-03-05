@@ -70,11 +70,20 @@ if option == "Distribusi Penyewaan Sepeda":
 elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
     
-    # Pastikan dataset tidak kosong sebelum menampilkan grafik
+    # Pengecekan apakah dataset memiliki data yang valid
+    st.write("Jumlah data setelah filter:", df_filtered.shape)
+    
     if df_filtered.empty:
         st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
     else:
-        # Konversi 'weathersit' menjadi kategori agar boxplot dapat bekerja
+        # Cek apakah ada NaN dalam kolom yang digunakan
+        st.write("Jumlah NaN di setiap kolom:")
+        st.write(df_filtered[['weathersit', 'temp', 'hum']].isnull().sum())
+        
+        # Hapus data NaN jika ada
+        df_filtered = df_filtered.dropna(subset=['weathersit', 'temp', 'hum'])
+        
+        # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
 
         # Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
