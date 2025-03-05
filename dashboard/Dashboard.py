@@ -67,7 +67,7 @@ if option == "Distribusi Penyewaan Sepeda":
     ax.set_ylabel("Frekuensi")
     st.pyplot(fig)
 
- elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
+    elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
         st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
         fig, ax = plt.subplots(figsize=(10, 5))
         sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
