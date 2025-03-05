@@ -18,8 +18,8 @@ st.title("Dashboard Analisis Penyewaan Sepeda")
 # Pilihan Visualisasi
 st.sidebar.header("Pilih Visualisasi")
 option = st.sidebar.selectbox("Pilih Grafik", [
-    "Distribusi Penyewaan Sepeda", "Pola Berdasarkan Cuaca", "Tren Harian & Bulanan", "RFM Analysis", "Clustering")
-]
+    "Distribusi Penyewaan Sepeda", "Pola Berdasarkan Cuaca", "Tren Harian & Bulanan", "RFM Analysis", "Clustering"
+])
                               
 # Sidebar untuk filtering interaktif
 st.sidebar.header("Filter Data")
