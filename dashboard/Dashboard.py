@@ -69,55 +69,54 @@ if option == "Distribusi Penyewaan Sepeda":
 
 elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
-    
+
     # Debugging: Cek jumlah data setelah filter
     st.write("Jumlah data setelah filter:", df_filtered.shape)
 
     if df_filtered.empty:
         st.warning("Tidak ada data yang sesuai dengan filter yang dipilih. Coba ubah filter musim/cuaca.")
     else:
-        # Debugging: Cek apakah ada NaN di kolom yang digunakan
-        st.write("Jumlah NaN di setiap kolom:")
-        st.write(df_filtered[['weathersit', 'cnt', 'temp', 'hum']].isnull().sum())
-
-        # Hapus NaN jika ada
-        df_filtered = df_filtered.dropna(subset=['weathersit', 'cnt', 'temp', 'hum'])
-
-        # Debugging: Cek tipe data weathersit sebelum visualisasi
-        st.write("Tipe data weathersit sebelum konversi:", df_filtered['weathersit'].dtype)
-
         # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
 
-        # Debugging: Cek tipe data setelah konversi
-        st.write("Tipe data weathersit setelah konversi:", df_filtered['weathersit'].dtype)
+        # Tambahkan dropdown interaktif untuk memilih cuaca
+        weathersit_options = ['Semua Cuaca'] + list(df_filtered['weathersit'].unique())
+        selected_weather = st.sidebar.selectbox("Pilih Kondisi Cuaca:", weathersit_options, key="weather_selectbox")
 
-        # Pastikan kategori cuaca memiliki urutan yang benar
-        cuaca_order = ['1', '2', '3', '4']
+        # Filter berdasarkan dropdown cuaca
+        if selected_weather != "Semua Cuaca":
+            df_filtered = df_filtered[df_filtered['weathersit'] == selected_weather]
 
-        # Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax, order=cuaca_order)
-        ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
-        ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
-        ax.set_ylabel("Jumlah Penyewaan Sepeda")
-        st.pyplot(fig)
+        # Pastikan dataset tidak kosong setelah filter cuaca
+        if df_filtered.empty:
+            st.warning("Tidak ada data setelah filter cuaca. Coba ubah pilihan dropdown.")
+        else:
+            # Pastikan kategori cuaca memiliki urutan yang benar
+            cuaca_order = ['1', '2', '3', '4']
 
-        # Visualisasi hubungan suhu dengan jumlah penyewaan sepeda
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.regplot(x='temp', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'red'}, ax=ax)
-        ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
-        ax.set_xlabel("Suhu (Normalized)")
-        ax.set_ylabel("Jumlah Penyewaan Sepeda")
-        st.pyplot(fig)
+            # Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
+            fig, ax = plt.subplots(figsize=(10, 5))
+            sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax, order=cuaca_order)
+            ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
+            ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
+            ax.set_ylabel("Jumlah Penyewaan Sepeda")
+            st.pyplot(fig)
 
-        # Visualisasi hubungan kelembaban dengan jumlah penyewaan sepeda
-        fig, ax = plt.subplots(figsize=(10, 5))
-        sns.regplot(x='hum', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'blue'}, ax=ax)
-        ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
-        ax.set_xlabel("Kelembaban")
-        ax.set_ylabel("Jumlah Penyewaan Sepeda")
-        st.pyplot(fig)
+            # Visualisasi hubungan suhu dengan jumlah penyewaan sepeda
+            fig, ax = plt.subplots(figsize=(10, 5))
+            sns.regplot(x='temp', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'red'}, ax=ax)
+            ax.set_title("Hubungan Suhu dan Jumlah Penyewaan Sepeda")
+            ax.set_xlabel("Suhu (Normalized)")
+            ax.set_ylabel("Jumlah Penyewaan Sepeda")
+            st.pyplot(fig)
+
+            # Visualisasi hubungan kelembaban dengan jumlah penyewaan sepeda
+            fig, ax = plt.subplots(figsize=(10, 5))
+            sns.regplot(x='hum', y='cnt', data=df_filtered, scatter_kws={'alpha':0.5}, line_kws={'color':'blue'}, ax=ax)
+            ax.set_title("Hubungan Kelembaban dan Jumlah Penyewaan Sepeda")
+            ax.set_xlabel("Kelembaban")
+            ax.set_ylabel("Jumlah Penyewaan Sepeda")
+            st.pyplot(fig)
 
 elif option == "Tren Harian & Bulanan":
     st.subheader("Tren Penyewaan Sepeda Berdasarkan Waktu")
