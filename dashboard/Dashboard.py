@@ -70,25 +70,28 @@ if option == "Distribusi Penyewaan Sepeda":
 elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
     
-    # Pengecekan apakah dataset memiliki data yang valid
+    # Pengecekan jumlah data setelah filter
     st.write("Jumlah data setelah filter:", df_filtered.shape)
-    
+
     if df_filtered.empty:
         st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
     else:
         # Cek apakah ada NaN dalam kolom yang digunakan
         st.write("Jumlah NaN di setiap kolom:")
-        st.write(df_filtered[['weathersit', 'temp', 'hum']].isnull().sum())
-        
+        st.write(df_filtered[['weathersit', 'temp', 'hum', 'cnt']].isnull().sum())
+
         # Hapus data NaN jika ada
-        df_filtered = df_filtered.dropna(subset=['weathersit', 'temp', 'hum'])
-        
+        df_filtered = df_filtered.dropna(subset=['weathersit', 'temp', 'hum', 'cnt'])
+
         # Konversi 'weathersit' ke kategori string
         df_filtered['weathersit'] = df_filtered['weathersit'].astype(str)
 
+        # Pastikan kategori cuaca memiliki urutan yang benar
+        cuaca_order = ['1', '2', '3', '4']
+
         # Visualisasi hubungan cuaca dengan jumlah penyewaan sepeda
         fig, ax = plt.subplots(figsize=(10, 5))
-        sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax)
+        sns.boxplot(x='weathersit', y='cnt', data=df_filtered, palette='viridis', ax=ax, order=cuaca_order)
         ax.set_title("Pola Penyewaan Berdasarkan Kondisi Cuaca")
         ax.set_xlabel("Kondisi Cuaca (1=Cerah, 2=Berkabut, 3=Hujan, 4=Salju)")
         ax.set_ylabel("Jumlah Penyewaan Sepeda")
