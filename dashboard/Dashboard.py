@@ -67,7 +67,7 @@ if option == "Distribusi Penyewaan Sepeda":
     ax.set_ylabel("Frekuensi")
     st.pyplot(fig)
 
-elif option == "Pola Berdasarkan Cuaca, Suhu, dan Kelembaban":
+elif option == "Pola Berdasarkan Cuaca":
     st.subheader("Pengaruh Cuaca, Suhu, dan Kelembaban terhadap Penyewaan Sepeda")
 
     # Debugging: Cek jumlah data setelah filter
